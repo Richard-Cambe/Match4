@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Puissance 4</title>
+    <style>
+      #game table {
+        border: 3px rgb(128, 0, 122) outset;
+        background-color: rgb(160, 225, 63);
+      }
+
+      #game td {
+        width: 40px;
+        height: 40px;
+        border-radius: 40%;
+        background-color: rgb(255, 255, 255);
+        cursor: pointer;
+      }
+      #game td.r {
+        background-color: red;
+      }
+      #game td.y {
+        background-color: yellow;
+      }
+    </style>
+
+    <script>
+      //Creation of the variables about placements in the [[double tableau]]:
+      let x = "x";
+      let r = "r";
+      let y = "y";
+
+      //Creation of the [[double-tableau]] which represents the gametable:
+      //On appelle aussi ça "une Matrice":
+      let gamescreen = [
+        [x, x, x, x, x, x, x],
+        [x, x, x, x, x, x, x],
+        [x, x, x, x, x, x, x],
+        [x, x, x, x, x, x, x],
+        [x, x, x, x, x, x, x],
+        [x, x, x, x, x, x, x],
+      ];
+
+      //Creation of the variable "player" which will be on "red" by default:
+      let player = "red";
+
+      //creation of the function that displays everything about the game:
+      function affichage() {
+        let puissance4 = document.querySelector("#game");
+
+        let html = "<table border=0 cellspacing=0 cellpadding=0'>";
+
+        for (i = 0; i < 6; i++) {
+          html += "<tr>";
+          for (j = 0; j < 7; j++) {
+            if (gamescreen[i][j] == x) {
+              html += "<td onclick='play(" + j + ")'>";
+              html += "</td>";
+            }
+            if (gamescreen[i][j] == y) {
+              html += "<td class='y'>";
+              html += "</td>";
+            }
+            if (gamescreen[i][j] == r) {
+              html += "<td class='r'>";
+              html += "</td>";
+            }
+          }
+          html += "</tr>";
+        }
+        html += "</table>";
+        puissance4.innerHTML = html;
+      }
+
+      //Creation of a function that contains the gameplay:
+      function play(column) {
+        for (i = 5; i >= 0; i--) {
+          //   for (j = 0; j < 7; j++) { est devenu (column) en ligne 76
+          if (player === "red") {
+            if (gamescreen[i][column] === x) {
+              gamescreen[i][column] = r;
+              player = "yellow";
+              console.log("Red");
+              break;
+            }
+          } else if (player === "yellow") {
+            if (gamescreen[i][column] === x) {
+              gamescreen[i][column] = y;
+              player = "red";
+              console.log("Yellow");
+              break;
+            }
+          }
+        }
+        affichage();
+      }
+      //Creation of the function that asks if a game is won or not:
+      function winlose(i, column) {
+        let win = "win";
+        let draw = "draw";
+      }
+
+      //   function newgame(){
+      //     display: gamecreen
+      //   }
+
+      //creation of the function that cleans the board to play another game
+      //TO DO LATER WHEN SCORE IS CREATED :
+      //the score has to be reseted too
+      function reset() {
+        for (i = 0; i < 6; i++) {
+          for (j = 0; j < 7; j++) {
+            if (gamescreen[i][j] != x) {
+              gamescreen = [
+                [x, x, x, x, x, x, x],
+                [x, x, x, x, x, x, x],
+                [x, x, x, x, x, x, x],
+                [x, x, x, x, x, x, x],
+                [x, x, x, x, x, x, x],
+                [x, x, x, x, x, x, x],
+              ];
+            }
+          }
+        }
+        affichage();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="game"></div>
+    <br /><br />
+
+    <input type="button" value="START" onclick="affichage();" />
+    <input type="button" value="RESET THE GAME" onclick="reset()" />
+    <!-- <input type="button" value="NEW GAME" onclick="reset()"/> -->
+  </body>
+</html>
